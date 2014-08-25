@@ -71,6 +71,9 @@ More convenient is to run the predict script.
 ./predict.py
 ```
 
+This will take at least 2 hours. Feel free to update the classifier's `n_jobs` parameter
+in `seizure_detection.py`.
+
 A submission file will be created under the directory specified by the `submission-dir` key
 in `SETTINGS.json` (default `submissions/`).
 
