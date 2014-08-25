@@ -126,4 +126,4 @@ Cross-validation set is obtained by splitting on entire seizures. For example if
 
 ## Model documentation
 
-Coming soon...
+Available at https://github.com/MichaelHills/seizure-detection/blob/master/seizure-detection.pdf
