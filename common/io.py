@@ -19,7 +19,8 @@ def save_hkl_file(filename, data):
         hkl.dump(data, hkl_filename, mode="w")
         return True
     except Exception:
-        os.remove(hkl_filename)
+        if os.path.isfile(filename):
+            os.remove(hkl_filename)
 
 
 def save_pickle_file(filename, data):
