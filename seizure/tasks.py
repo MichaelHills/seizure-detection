@@ -3,7 +3,8 @@ import os.path
 import numpy as np
 import scipy.io
 import common.time as time
-from sklearn import cross_validation, preprocessing
+from sklearn import preprocessing
+from sklearn.model_selection import train_test_split
 from sklearn.metrics import roc_curve, auc
 
 TaskCore = namedtuple('TaskCore', ['cached_data_loader', 'data_dir', 'target', 'pipeline', 'classifier_name',
@@ -99,7 +100,11 @@ class TrainClassifierTask(Task):
 
     def load_data(self):
         data = TrainingDataTask(self.task_core).run()
-        return train_classifier(self.task_core.classifier, data, use_all_data=True, normalize=self.task_core.normalize)
+        out = train_classifier(self.task_core.classifier, data, use_all_data=True, normalize=self.task_core.normalize)
+        # NOTE(mike): A hack to ensure pickle is used, the behaviour of the hickle library is that it no longer
+        # fails when hickling a classifier. It used to in a much earlier version.
+        out['__use_pickle'] = True
+        return out
 
 
 class MakePredictionsTask(Task):
@@ -293,7 +298,7 @@ def prepare_training_data(ictal_data, interictal_data, cv_ratio):
 
 # split interictal segments at random for training and cross-validation
 def split_train_random(X, y, cv_ratio):
-    X_train, X_cv, y_train, y_cv = cross_validation.train_test_split(X, y, test_size=cv_ratio, random_state=0)
+    X_train, X_cv, y_train, y_cv = train_test_split(X, y, test_size=cv_ratio, random_state=0)
     return X_train, y_train, X_cv, y_cv
 
 

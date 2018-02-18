@@ -2,32 +2,53 @@
 
 This repository contains the winning submission for UPenn and Mayo Clinic's Seizure Detection Challenge on Kaggle.
 
+It has been updated as of 18 Feb 2018 to include a requirements.txt for installing dependencies via pip. Small changes
+were necessary to get the repo working again with updated libraries. These changes were tested using `sample_clip.mat`
+from the Kaggle competition data rather than the original data which I did not have on hand. For the original submission
+without these changes, you may checkout the tag `original-submission`, e.g. `git checkout original-submission`.
+
 http://www.kaggle.com/c/seizure-detection
 
 This README and repository modelled on https://www.kaggle.com/wiki/ModelSubmissionBestPractices
 
-##Hardware / OS platform used
+## Hardware / OS platform used
 
  * 15" Retina MacBook Pro (Late 2013) 2.7GHz Core i7, 16GB RAM
  * OS X Mavericks
 
-##Dependencies
+## Dependencies
 
-###Required
+### Required
 
- * Python 2.7
- * scikit_learn-0.14.1
- * numpy-1.8.1
- * pandas-0.14.0
- * scipy
- * hickle (plus h5py and hdf5, see https://github.com/telegraphic/hickle for installation details)
+ * python 2.7 with virtualenv
+ * hickle==2.1.0
+ * numpy==1.14.0
+ * scikit-learn==0.19.1
+ * scipy==1.0.0
 
-###Optional (to try out various data transforms)
+### Optional (to try out various data transforms)
 
  * pywt (for Daubechies wavelet)
  * scikits talkbox (for MFCC)
 
-##Train the model and make predictions
+### Installing dependencies
+
+Setup the virtualenv and install the dependencies
+
+```
+virtualenv venv
+. venv/bin/activate
+pip install --upgrade pip
+pip install -r requirements.txt
+```
+
+## Train the model and make predictions
+
+Activate the virtualenv
+
+```
+. venv/bin/activate
+```
 
 Obtain the competition data and place it in the root directory of the project.
 ```
@@ -51,7 +72,7 @@ The directory name of the data should match the value in SETTINGS.json under the
 
 Then simply run:
 ```
-./train.py
+python -m train
 ```
 
 One classifier is trained for each patient, and dumped to the data-cache directory.
@@ -68,7 +89,7 @@ Although using these classifiers outside the scope of this project is not very s
 More convenient is to run the predict script.
 
 ```
-./predict.py
+python -m predict
 ```
 
 This will take at least 2 hours. Feel free to update the classifier's `n_jobs` parameter
@@ -105,7 +126,7 @@ and dump the classifiers as well as make predictions.
 ## Run cross-validation
 
 ```
-./cross_validation.py
+python -m cross_validation
 ```
 
 Cross-validation set is obtained by splitting on entire seizures. For example if there are 4 seizures,
